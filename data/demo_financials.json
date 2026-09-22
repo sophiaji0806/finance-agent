@@ -1,0 +1,29 @@
+{
+  "companies": [
+    {"code": "300001", "name": "深圳云科技", "industry": "TMT·软件", "risk_level": "中", "credit_rating": "AA"},
+    {"code": "600002", "name": "沪港智造", "industry": "制造业", "risk_level": "低", "credit_rating": "AAA"},
+    {"code": "000003", "name": "鹏城港口", "industry": "交通运输", "risk_level": "中", "credit_rating": "A"},
+    {"code": "601004", "name": "湾区商业", "industry": "消费零售", "risk_level": "高", "credit_rating": "BBB"},
+    {"code": "688008", "name": "芯微电子", "industry": "半导体", "risk_level": "中", "credit_rating": "A"}
+  ],
+  "financials": [
+    {"code": "300001", "fiscal_year": 2021, "revenue": 850, "cogs": 560, "net_income": 80, "total_assets": 1500, "total_liabilities": 720, "current_assets": 1000, "current_liabilities": 560, "inventory": 90, "receivables": 210, "equity": 780, "ebitda": 190, "fcf": 95},
+    {"code": "300001", "fiscal_year": 2022, "revenue": 1000, "cogs": 620, "net_income": 110, "total_assets": 1700, "total_liabilities": 780, "current_assets": 1150, "current_liabilities": 600, "inventory": 100, "receivables": 250, "equity": 920, "ebitda": 220, "fcf": 130},
+    {"code": "300001", "fiscal_year": 2023, "revenue": 1200, "cogs": 700, "net_income": 150, "total_assets": 2000, "total_liabilities": 900, "current_assets": 1400, "current_liabilities": 700, "inventory": 120, "receivables": 300, "equity": 1100, "ebitda": 260, "fcf": 180},
+    {"code": "600002", "fiscal_year": 2021, "revenue": 620, "cogs": 460, "net_income": 66, "total_assets": 1200, "total_liabilities": 520, "current_assets": 720, "current_liabilities": 420, "inventory": 210, "receivables": 100, "equity": 680, "ebitda": 125, "fcf": 85},
+    {"code": "600002", "fiscal_year": 2022, "revenue": 700, "cogs": 500, "net_income": 80, "total_assets": 1350, "total_liabilities": 560, "current_assets": 860, "current_liabilities": 460, "inventory": 230, "receivables": 120, "equity": 790, "ebitda": 150, "fcf": 100},
+    {"code": "600002", "fiscal_year": 2023, "revenue": 800, "cogs": 540, "net_income": 96, "total_assets": 1500, "total_liabilities": 600, "current_assets": 950, "current_liabilities": 500, "inventory": 260, "receivables": 140, "equity": 900, "ebitda": 170, "fcf": 120},
+    {"code": "000003", "fiscal_year": 2021, "revenue": 420, "cogs": 300, "net_income": 36, "total_assets": 1050, "total_liabilities": 480, "current_assets": 600, "current_liabilities": 380, "inventory": 80, "receivables": 150, "equity": 570, "ebitda": 90, "fcf": 55},
+    {"code": "000003", "fiscal_year": 2022, "revenue": 460, "cogs": 325, "net_income": 40, "total_assets": 1120, "total_liabilities": 500, "current_assets": 650, "current_liabilities": 400, "inventory": 85, "receivables": 165, "equity": 620, "ebitda": 100, "fcf": 62},
+    {"code": "000003", "fiscal_year": 2023, "revenue": 500, "cogs": 350, "net_income": 45, "total_assets": 1200, "total_liabilities": 520, "current_assets": 700, "current_liabilities": 420, "inventory": 90, "receivables": 180, "equity": 680, "ebitda": 110, "fcf": 70},
+    {"code": "601004", "fiscal_year": 2022, "revenue": 380, "cogs": 330, "net_income": 15, "total_assets": 840, "total_liabilities": 570, "current_assets": 430, "current_liabilities": 360, "inventory": 140, "receivables": 85, "equity": 270, "ebitda": 55, "fcf": 25},
+    {"code": "601004", "fiscal_year": 2023, "revenue": 420, "cogs": 360, "net_income": 18, "total_assets": 900, "total_liabilities": 600, "current_assets": 460, "current_liabilities": 380, "inventory": 150, "receivables": 90, "equity": 300, "ebitda": 60, "fcf": 30},
+    {"code": "688008", "fiscal_year": 2022, "revenue": 1500, "cogs": 750, "net_income": 260, "total_assets": 3200, "total_liabilities": 1100, "current_assets": 2200, "current_liabilities": 800, "inventory": 400, "receivables": 500, "equity": 2100, "ebitda": 420, "fcf": 300},
+    {"code": "688008", "fiscal_year": 2023, "revenue": 1800, "cogs": 830, "net_income": 330, "total_assets": 3800, "total_liabilities": 1250, "current_assets": 2600, "current_liabilities": 900, "inventory": 450, "receivables": 560, "equity": 2550, "ebitda": 500, "fcf": 360}
+  ],
+  "valuation": {
+    "dofc_project": {"name": "某新能源项目", "fcf_forecast": [120, 140, 165, 190, 215], "discount_rate": 0.10, "terminal_growth": 0.03},
+    "irr_project": {"name": "某私募股权项目", "cashflows": [-2000, 400, 500, 600, 700, 900]},
+    "credit": {"name": "某笔公司贷款", "pd": 0.02, "lgd": 0.40, "ead": 10000000}
+  }
+}

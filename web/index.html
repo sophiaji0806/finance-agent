@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智能财务分析 Agent</title>
+<style>
+  :root{--bg:#0f1419;--panel:#1a212b;--panel2:#222b37;--ink:#e6edf3;--muted:#8b98a5;
+    --accent:#4da3ff;--accent2:#7ee0b8;--warn:#ffb86b;--danger:#ff7b7b;--code:#161c25;--border:#2c3742;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 "Segoe UI","Microsoft YaHei",sans-serif;}
+  .wrap{max-width:900px;margin:0 auto;padding:28px 20px 120px;}
+  h1{font-size:24px;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:14px;margin-bottom:20px}
+  .box{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px}
+  textarea{width:100%;min-height:80px;background:var(--code);color:var(--ink);border:1px solid var(--border);
+    border-radius:8px;padding:12px;font:16px/1.6 inherit;resize:vertical}
+  textarea:focus{outline:none;border-color:var(--accent)}
+  .row{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap}
+  button{background:var(--accent);color:#0f1419;border:0;border-radius:8px;padding:10px 22px;
+    font-size:16px;font-weight:bold;cursor:pointer}
+  button:hover{filter:brightness(1.1)}
+  button:disabled{opacity:.5;cursor:not-allowed}
+  .hint{color:var(--muted);font-size:13px}
+  .chip{background:var(--panel2);border:1px solid var(--border);border-radius:16px;padding:4px 12px;
+    font-size:13px;color:var(--muted);cursor:pointer}
+  .chip:hover{border-color:var(--accent);color:var(--accent)}
+  #status{font-size:14px;color:var(--warn);margin-left:auto}
+  .ans{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:16px}
+  .ans h2{font-size:19px;margin:22px 0 8px;padding-left:9px;border-left:3px solid var(--accent)}
+  .ans h3{font-size:17px;margin:18px 0 6px;color:var(--accent2)}
+  .ans table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14.5px}
+  .ans th,.ans td{border:1px solid var(--border);padding:8px 10px;text-align:left}
+  .ans th{background:var(--panel2)}
+  .ans code{background:var(--code);padding:2px 6px;border-radius:4px;font-family:Consolas,monospace;color:#ffd47f}
+  .ans ul,.ans ol{padding-left:24px}
+  .ans blockquote{border-left:3px solid var(--accent2);margin:10px 0;padding:6px 14px;color:var(--muted);background:#1e2620}
+  .trace{background:var(--panel2);border-radius:10px;padding:12px 16px;font-size:14px}
+  .trace summary{cursor:pointer;color:var(--accent2);font-weight:bold}
+  .step{padding:6px 0;border-bottom:1px dashed var(--border);font-family:Consolas,monospace;font-size:13px}
+  .step:last-child{border:0}
+  .tname{color:var(--accent);font-weight:bold}
+  .err{background:#2b1f22;border-left:4px solid var(--danger);padding:12px 16px;border-radius:8px;margin-bottom:16px}
+  .ok{background:#1e2620;border-left:4px solid var(--accent2);padding:10px 14px;border-radius:8px;
+    font-size:14px;margin-bottom:16px}
+  .spinner{display:inline-block;width:14px;height:14px;border:2px solid var(--muted);
+    border-top-color:var(--accent);border-radius:50%;animation:sp 0.8s linear infinite;vertical-align:-2px;margin-right:6px}
+  @keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>智能财务分析 Agent</h1>
+  <div class="sub">输入一个财务问题，Agent 自动决定「查财务库 → 算指标 → 检索准则 → 跑脚本」的步骤组合</div>
+
+  <div id="banner"></div>
+
+  <div class="box">
+    <textarea id="q" placeholder="例如：算一下深圳云科技2023年的毛利率、净利率、流动比率和ROE"></textarea>
+    <div class="row">
+      <button id="send">开始分析</button>
+      <span id="status"></span>
+    </div>
+    <div class="row">
+      <span class="hint">试试：</span>
+      <span class="chip" data-q="算一下深圳云科技2023年的毛利率、净利率、流动比率和ROE">毛利率·ROE</span>
+      <span class="chip" data-q="对比深圳云科技与湾区商业近两年毛利率、偿债能力与运营效率，并给出投资角度建议">两家对比</span>
+      <span class="chip" data-q="用DCF给某新能源项目估值，自由现金流[120,140,165,190,215]，折现率10%，永续增长3%">DCF 估值</span>
+      <span class="chip" data-q="某笔公司贷款敞口1000万，违约概率2%，违约损失率40%，算预期信用损失ECL，并说明IFRS9依据">ECL 信用损失</span>
+    </div>
+  </div>
+
+  <div id="out"></div>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const out = $('#out'), status = $('#status'), btn = $('#send');
+
+// ---- 启动时检查后端是否活着 ----
+async function ping(){
+  try{
+    const r = await fetch('/health');
+    const j = await r.json();
+    $('#banner').innerHTML = '<div class="ok">✅ 后端已连接（可用工具 '+j.tools+' 个）。可以直接提问。</div>';
+  }catch(e){
+    $('#banner').innerHTML = '<div class="err">❌ 连不上后端。请先在终端启动服务：<code>uvicorn app.main:app --reload</code>，再刷新本页。</div>';
+  }
+}
+ping();
+
+// ---- 极简 Markdown 渲染（标题/粗体/表格/列表/引用/代码） ----
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function md(text){
+  const lines = esc(text).split('\n');
+  let html = '', i = 0, inList = false, inTable = false;
+  const closeList = ()=>{ if(inList){ html += '</ul>'; inList=false; } };
+  const closeTable = ()=>{ if(inTable){ html += '</table>'; inTable=false; } };
+  while(i < lines.length){
+    let L = lines[i];
+    // 表格：连续以 | 开头的行
+    if(/^\s*\|.*\|\s*$/.test(L)){
+      closeList();
+      if(!inTable){ html += '<table>'; inTable = true; }
+      const cells = L.trim().replace(/^\||\|$/g,'').split('|');
+      if(/^[\s\-:|]+$/.test(L.replace(/\|/g,''))){ i++; continue; }  // 分隔行跳过
+      const isHead = !/<\/?t/.test(html);
+      html += '<tr>' + cells.map(c=>`<${isHead?'th':'td'}>${inline(c.trim())}</${isHead?'th':'td'}>`).join('') + '</tr>';
+      i++; continue;
+    }
+    closeTable();
+    if(/^#{1,4}\s/.test(L)){ closeList(); const lv=Math.min(L.match(/^#+/)[0].length+1,4); html += `<h${lv}>${inline(L.replace(/^#+\s/,''))}</h${lv}>`; }
+    else if(/^\s*[-*]\s/.test(L)){ if(!inList){html+='<ul>';inList=true;} html += `<li>${inline(L.replace(/^\s*[-*]\s/,''))}</li>`; }
+    else if(/^\s*\d+\.\s/.test(L)){ if(!inList){html+='<ul>';inList=true;} html += `<li>${inline(L.replace(/^\s*\d+\.\s/,''))}</li>`; }
+    else if(/^>\s?/.test(L)){ closeList(); html += `<blockquote>${inline(L.replace(/^>\s?/,''))}</blockquote>`; }
+    else if(/^---+$/.test(L.trim())){ closeList(); html += '<hr>'; }
+    else if(L.trim()===''){ closeList(); }
+    else { closeList(); html += `<p>${inline(L)}</p>`; }
+    i++;
+  }
+  closeList(); closeTable();
+  return html;
+}
+function inline(s){
+  return s.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>')
+          .replace(/`(.+?)`/g,'<code>$1</code>')
+          .replace(/\*(.+?)\*/g,'<i>$1</i>');
+}
+
+// ---- 发送问题 ----
+btn.onclick = run;
+$('#q').addEventListener('keydown', e=>{ if(e.key==='Enter' && e.ctrlKey) run(); });
+document.querySelectorAll('.chip').forEach(c=> c.onclick = ()=>{ $('#q').value = c.dataset.q; run(); });
+
+async function run(){
+  const q = $('#q').value.trim();
+  if(!q){ $('#q').focus(); return; }
+  btn.disabled = true;
+  status.innerHTML = '<span class="spinner"></span>Agent 正在思考并调用工具…（约 10~60 秒）';
+  out.innerHTML = '';
+  try{
+    const r = await fetch('/api/agent/analyze', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({query:q})
+    });
+    const j = await r.json();
+    if(!r.ok){ throw new Error(j.detail || ('HTTP '+r.status)); }
+    render(j);
+    status.textContent = `完成：${j.iterations} 次工具调用，耗时 ${(j.elapsed_ms/1000).toFixed(1)} 秒`;
+  }catch(e){
+    out.innerHTML = `<div class="err"><b>出错了：</b>${esc(String(e.message||e))}<br>
+      常见原因：① 后端没启动 → 终端跑 <code>uvicorn app.main:app --reload</code>；② .env 里 DEEPSEEK_API_KEY 没填或无效。</div>`;
+    status.textContent = '';
+  }finally{
+    btn.disabled = false;
+  }
+}
+
+function render(j){
+  let html = `<div class="ans">${md(j.answer || '（无回答）')}</div>`;
+  const tr = j.trace || [];
+  if(tr.length){
+    html += `<details class="trace" open><summary>🔧 工具调用过程（${tr.length} 次）—— 面试时可讲这段</summary>`;
+    tr.forEach((t,i)=>{
+      const arg = JSON.stringify(t.args);
+      html += `<div class="step">${i+1}. <span class="tname">${esc(t.tool)}</span> ${esc(arg.length>160?arg.slice(0,160)+'…':arg)} <span style="color:var(--muted)">[${t.ms}ms]</span></div>`;
+    });
+    html += '</details>';
+  }
+  out.innerHTML = html;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,770 @@
+{
+  "answer": "基于全部数据与准则检索，形成完整分析。以下是结论。\n\n---\n\n## 【结论】\n\n**深圳云科技(300001)** 与 **湾区商业(601004)** 分属不同行业（TMT·软件 vs 消费），财务表现呈现\"高毛利稳健型\"与\"低毛利高风险型\"的鲜明反差。\n\n**1. 盈利能力（毛利率）**\n- 深圳云科技 2023 毛利率 **41.67%**，且从 2022 年 38.00% 逐年**提升**（+3.67pct），净利率 12.50%（同比+1.5pct），体现软件高附加值、议价能力强。\n- 湾区商业 2023 毛利率仅 **14.29%**，净利率仅 **4.29%**，盈利空间窄、成本占比高（COGS/收入≈85.7%）。\n\n**2. 偿债能力**\n- 深圳云科技流动比率 **2.00**、速动比率 **1.83**、产权比率 **0.82**、资产负债率约 **45%**，短期与长期偿债均稳健，且较2022年（流动1.92/速动1.75）继续优化。\n- 湾区商业流动比率仅 **1.21**、**速动比率 0.82（<1）**、产权比率高达 **2.00**、资产负债率约 **66.7%**，短期流动性吃紧、杠杆偏高；速动比率跌破1意味着扣除存货后无法覆盖流动负债，存在短期偿付压力。\n\n**3. 运营效率**\n- 深圳云科技总资产周转 **0.60**、存货周转 **5.83** 次；2022 为 0.59/6.20，整体保持较高效率。\n- 湾区商业总资产周转仅 **0.47**、存货周转仅 **2.40** 次，存货占总资产约 **16.7%**，周转显著偏慢，库存积压风险高。\n\n> ⚠️ 数据提示：**湾区商业(601004)数据库仅含2023年数据，无2022年**，故其无法做同比；其风险等级为\"高\"、信用评级\"BBB\"，亦印证其偿债与持续经营压力。以下2022年变化仅针对深圳云科技。\n\n---\n\n## 【指标】\n\n| 指标 | 深圳云科技 2023 | 深圳云科技 2022 | 同比变化 | 湾区商业 2023 | 同比（无上年） |\n|---|---|---|---|---|---|\n| 毛利率 | 41.67% | 38.00% | ▲ +3.67pct | 14.29% | — |\n| 净利率 | 12.50% | 11.00% | ▲ +1.50pct | 4.29% | — |\n| 流动比率 | 2.00 | 1.92 | ▲ | 1.21 | — |\n| 速动比率 | 1.83 | 1.75 | ▲ | 0.82 | — |\n| 产权比率(D/E) | 0.82 | 0.85 | ▼ 略降 | 2.00 | — |\n| 资产负债率 | 45.0% | 45.9% | ▼ | 66.7% | — |\n| ROE | 13.64% | 11.96% | ▲ | 6.00% | — |\n| ROA | 7.50% | 6.47% | ▲ | 2.00% | — |\n| 总资产周转 | 0.60 | 0.59 | ▲ | 0.47 | — |\n| 存货周转 | 5.83次 | 6.20次 | ▼ 略缓 | 2.40次 | — |\n| 应收账款周转 | 4.00次(≈90天) | 4.00次(≈90天) | 持平 | 4.67次(≈77天) | — |\n\n---\n\n## 【依据】\n\n- **数据来源**：查 `companies` 表（主体信息）与 `financials` 表（营收/成本/利润/资产/负债/应收/存货/现金流）。\n- **指标计算**：用 `calc_financial_model` 计算 gross_margin / net_margin / current_ratio / quick_ratio / roe / roa / debt_to_equity / asset_turnover / inventory_turnover；应收账款周转率用 `run_python` 复现（收入÷应收）。\n- **准则依据**：\n  - 收入确认：`企业会计准则14号/IFRS15` 五步法——软件（深圳云科技）履约义务在控制权转移时确认，毛利率反映其高附加值；消费零售（湾区商业）可变对价、销售折扣、退货等需计入交易价格，收入确认时点对毛利率有影响（RAG 检索到\"时点确认 vs 时段确认\"）。\n  - 存货与减值：湾区商业存货占比高、周转慢，结合 `IFRS9 预期信用损失(ECL)` 与存货跌价准备逻辑，需评估库存跌价与应收账款减值风险。\n  - 持续经营与列报：湾区商业风险等级\"高\"、\"BBB\"评级，结合 `审计SOX内控` 与财务指标预警，提示其偿债与持续经营不确定性（流动比率/速动比率/杠杆均偏弱）。\n\n---\n\n## 【建议】\n\n1. **对深圳云科技**：维持高毛利与稳健杠杆优势。建议在保持产品溢价的同时，将 **存货周转（5.83次，同比略降）** 与 **应收账款周转（90天）** 进一步优化，通过标准化交付与信用管控缩短收现周期，释放现金流（2023 FCF 180，高于2022的130）。\n\n2. **对湾区商业**：重点化解短期偿债风险。当前 **速动比率 0.82<1、产权比率 2.0**，建议：(a) 压降存货（周转仅2.4次）并评估存货跌价准备；(b) 补充权益或优化债务结构，把流动比率恢复到1.5以上；否则需关注持续经营与减值计提压力。\n\n3. **准则层面审慎性提示**：对湾区商业严格按 IFRS15 核查可变对价（折扣/退货）、按 IFRS9（ECL）与存货准则评估减值，避免高估盈利资产；由于缺乏其2022年基数，建议在获得上年数据后再做趋势判断，当前结论仅作横截面参照。\n\n> 需说明：以上数字全部来自数据表与模型真实计算结果；湾区商业2022年数据在库中缺失，无法执行同比，已在结论中标注。",
+  "trace": [
+    {
+      "tool": "query_db",
+      "args": {
+        "sql": "SELECT * FROM companies"
+      },
+      "result": {
+        "rows": [
+          {
+            "code": "300001",
+            "name": "深圳云科技",
+            "industry": "TMT·软件",
+            "risk_level": "中",
+            "credit_rating": "AA"
+          },
+          {
+            "code": "600002",
+            "name": "沪港智造",
+            "industry": "制造业",
+            "risk_level": "低",
+            "credit_rating": "AAA"
+          },
+          {
+            "code": "000003",
+            "name": "鹏城港口",
+            "industry": "交通运输",
+            "risk_level": "中",
+            "credit_rating": "A"
+          },
+          {
+            "code": "601004",
+            "name": "湾区商业",
+            "industry": "消费",
+            "risk_level": "高",
+            "credit_rating": "BBB"
+          }
+        ]
+      },
+      "ms": 2
+    },
+    {
+      "tool": "query_db",
+      "args": {
+        "sql": "SELECT * FROM financials LIMIT 20"
+      },
+      "result": {
+        "rows": [
+          {
+            "code": "300001",
+            "fiscal_year": 2023,
+            "revenue": 1200.0,
+            "cogs": 700.0,
+            "net_income": 150.0,
+            "total_assets": 2000.0,
+            "total_liabilities": 900.0,
+            "current_assets": 1400.0,
+            "current_liabilities": 700.0,
+            "inventory": 120.0,
+            "receivables": 300.0,
+            "equity": 1100.0,
+            "ebitda": 260.0,
+            "fcf": 180.0
+          },
+          {
+            "code": "300001",
+            "fiscal_year": 2022,
+            "revenue": 1000.0,
+            "cogs": 620.0,
+            "net_income": 110.0,
+            "total_assets": 1700.0,
+            "total_liabilities": 780.0,
+            "current_assets": 1150.0,
+            "current_liabilities": 600.0,
+            "inventory": 100.0,
+            "receivables": 250.0,
+            "equity": 920.0,
+            "ebitda": 220.0,
+            "fcf": 130.0
+          },
+          {
+            "code": "600002",
+            "fiscal_year": 2023,
+            "revenue": 800.0,
+            "cogs": 540.0,
+            "net_income": 96.0,
+            "total_assets": 1500.0,
+            "total_liabilities": 600.0,
+            "current_assets": 950.0,
+            "current_liabilities": 500.0,
+            "inventory": 260.0,
+            "receivables": 140.0,
+            "equity": 900.0,
+            "ebitda": 170.0,
+            "fcf": 120.0
+          },
+          {
+            "code": "600002",
+            "fiscal_year": 2022,
+            "revenue": 700.0,
+            "cogs": 500.0,
+            "net_income": 80.0,
+            "total_assets": 1350.0,
+            "total_liabilities": 560.0,
+            "current_assets": 860.0,
+            "current_liabilities": 460.0,
+            "inventory": 230.0,
+            "receivables": 120.0,
+            "equity": 790.0,
+            "ebitda": 150.0,
+            "fcf": 100.0
+          },
+          {
+            "code": "000003",
+            "fiscal_year": 2023,
+            "revenue": 500.0,
+            "cogs": 350.0,
+            "net_income": 45.0,
+            "total_assets": 1200.0,
+            "total_liabilities": 520.0,
+            "current_assets": 700.0,
+            "current_liabilities": 420.0,
+            "inventory": 90.0,
+            "receivables": 180.0,
+            "equity": 680.0,
+            "ebitda": 110.0,
+            "fcf": 70.0
+          },
+          {
+            "code": "601004",
+            "fiscal_year": 2023,
+            "revenue": 420.0,
+            "cogs": 360.0,
+            "net_income": 18.0,
+            "total_assets": 900.0,
+            "total_liabilities": 600.0,
+            "current_assets": 460.0,
+            "current_liabilities": 380.0,
+            "inventory": 150.0,
+            "receivables": 90.0,
+            "equity": 300.0,
+            "ebitda": 60.0,
+            "fcf": 30.0
+          }
+        ]
+      },
+      "ms": 1
+    },
+    {
+      "tool": "query_db",
+      "args": {
+        "sql": "SELECT * FROM financials WHERE code IN ('300001','601004') ORDER BY code, fiscal_year"
+      },
+      "result": {
+        "rows": [
+          {
+            "code": "300001",
+            "fiscal_year": 2022,
+            "revenue": 1000.0,
+            "cogs": 620.0,
+            "net_income": 110.0,
+            "total_assets": 1700.0,
+            "total_liabilities": 780.0,
+            "current_assets": 1150.0,
+            "current_liabilities": 600.0,
+            "inventory": 100.0,
+            "receivables": 250.0,
+            "equity": 920.0,
+            "ebitda": 220.0,
+            "fcf": 130.0
+          },
+          {
+            "code": "300001",
+            "fiscal_year": 2023,
+            "revenue": 1200.0,
+            "cogs": 700.0,
+            "net_income": 150.0,
+            "total_assets": 2000.0,
+            "total_liabilities": 900.0,
+            "current_assets": 1400.0,
+            "current_liabilities": 700.0,
+            "inventory": 120.0,
+            "receivables": 300.0,
+            "equity": 1100.0,
+            "ebitda": 260.0,
+            "fcf": 180.0
+          },
+          {
+            "code": "601004",
+            "fiscal_year": 2023,
+            "revenue": 420.0,
+            "cogs": 360.0,
+            "net_income": 18.0,
+            "total_assets": 900.0,
+            "total_liabilities": 600.0,
+            "current_assets": 460.0,
+            "current_liabilities": 380.0,
+            "inventory": 150.0,
+            "receivables": 90.0,
+            "equity": 300.0,
+            "ebitda": 60.0,
+            "fcf": 30.0
+          }
+        ]
+      },
+      "ms": 0
+    },
+    {
+      "tool": "query_db",
+      "args": {
+        "sql": "SELECT name FROM sqlite_master WHERE type='table'"
+      },
+      "result": {
+        "rows": [
+          {
+            "name": "companies"
+          },
+          {
+            "name": "financials"
+          }
+        ]
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "gross_margin",
+        "params": {
+          "revenue": 1200.0,
+          "cogs": 700.0
+        }
+      },
+      "result": {
+        "gross_margin": 0.4166666666666667
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "gross_margin",
+        "params": {
+          "revenue": 1000.0,
+          "cogs": 620.0
+        }
+      },
+      "result": {
+        "gross_margin": 0.38
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "gross_margin",
+        "params": {
+          "revenue": 420.0,
+          "cogs": 360.0
+        }
+      },
+      "result": {
+        "gross_margin": 0.14285714285714285
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "net_margin",
+        "params": {
+          "revenue": 1200.0,
+          "net_income": 150.0
+        }
+      },
+      "result": {
+        "net_margin": 0.125
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "net_margin",
+        "params": {
+          "revenue": 1000.0,
+          "net_income": 110.0
+        }
+      },
+      "result": {
+        "net_margin": 0.11
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "net_margin",
+        "params": {
+          "revenue": 420.0,
+          "net_income": 18.0
+        }
+      },
+      "result": {
+        "net_margin": 0.04285714285714286
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "current_ratio",
+        "params": {
+          "current_assets": 1400.0,
+          "current_liabilities": 700.0
+        }
+      },
+      "result": {
+        "current_ratio": 2.0
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "current_ratio",
+        "params": {
+          "current_assets": 1150.0,
+          "current_liabilities": 600.0
+        }
+      },
+      "result": {
+        "current_ratio": 1.9166666666666667
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "current_ratio",
+        "params": {
+          "current_assets": 460.0,
+          "current_liabilities": 380.0
+        }
+      },
+      "result": {
+        "current_ratio": 1.2105263157894737
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "quick_ratio",
+        "params": {
+          "current_assets": 1400.0,
+          "inventory": 120.0,
+          "current_liabilities": 700.0
+        }
+      },
+      "result": {
+        "quick_ratio": 1.8285714285714285
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "quick_ratio",
+        "params": {
+          "current_assets": 1150.0,
+          "inventory": 100.0,
+          "current_liabilities": 600.0
+        }
+      },
+      "result": {
+        "quick_ratio": 1.75
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "quick_ratio",
+        "params": {
+          "current_assets": 460.0,
+          "inventory": 150.0,
+          "current_liabilities": 380.0
+        }
+      },
+      "result": {
+        "quick_ratio": 0.8157894736842105
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "roe",
+        "params": {
+          "net_income": 150.0,
+          "equity": 1100.0
+        }
+      },
+      "result": {
+        "roe": 0.13636363636363635
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "roe",
+        "params": {
+          "net_income": 110.0,
+          "equity": 920.0
+        }
+      },
+      "result": {
+        "roe": 0.11956521739130435
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "roe",
+        "params": {
+          "net_income": 18.0,
+          "equity": 300.0
+        }
+      },
+      "result": {
+        "roe": 0.06
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "roa",
+        "params": {
+          "net_income": 150.0,
+          "total_assets": 2000.0
+        }
+      },
+      "result": {
+        "roa": 0.075
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "roa",
+        "params": {
+          "net_income": 110.0,
+          "total_assets": 1700.0
+        }
+      },
+      "result": {
+        "roa": 0.06470588235294118
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "roa",
+        "params": {
+          "net_income": 18.0,
+          "total_assets": 900.0
+        }
+      },
+      "result": {
+        "roa": 0.02
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "debt_to_equity",
+        "params": {
+          "total_liabilities": 900.0,
+          "equity": 1100.0
+        }
+      },
+      "result": {
+        "debt_to_equity": 0.8181818181818182
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "debt_to_equity",
+        "params": {
+          "total_liabilities": 780.0,
+          "equity": 920.0
+        }
+      },
+      "result": {
+        "debt_to_equity": 0.8478260869565217
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "debt_to_equity",
+        "params": {
+          "total_liabilities": 600.0,
+          "equity": 300.0
+        }
+      },
+      "result": {
+        "debt_to_equity": 2.0
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "asset_turnover",
+        "params": {
+          "revenue": 1200.0,
+          "total_assets": 2000.0
+        }
+      },
+      "result": {
+        "asset_turnover": 0.6
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "asset_turnover",
+        "params": {
+          "revenue": 1000.0,
+          "total_assets": 1700.0
+        }
+      },
+      "result": {
+        "asset_turnover": 0.5882352941176471
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "asset_turnover",
+        "params": {
+          "revenue": 420.0,
+          "total_assets": 900.0
+        }
+      },
+      "result": {
+        "asset_turnover": 0.4666666666666667
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "inventory_turnover",
+        "params": {
+          "cogs": 700.0,
+          "inventory": 120.0
+        }
+      },
+      "result": {
+        "inventory_turnover": 5.833333333333333
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "inventory_turnover",
+        "params": {
+          "cogs": 620.0,
+          "inventory": 100.0
+        }
+      },
+      "result": {
+        "inventory_turnover": 6.2
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "inventory_turnover",
+        "params": {
+          "cogs": 360.0,
+          "inventory": 150.0
+        }
+      },
+      "result": {
+        "inventory_turnover": 2.4
+      },
+      "ms": 0
+    },
+    {
+      "tool": "rag_search",
+      "args": {
+        "query": "企业会计准则 毛利率 收入确认 营业成本 核算"
+      },
+      "result": {
+        "results": [
+          {
+            "title": "新收入准则 五步法",
+            "score": 0.3011,
+            "snippet": "新收入准则（IFRS 15 / 企业会计准则 14 号）确认收入的五步法：1) 识别与客户订立的合同；2) 识别合同中的单项履约义务；3) 确定交易价格；4) 将交易价格分摊至各单项履约义务；5) 履行履约义务时（或随履约进度）确认收入。履约义务在客户取得相关商品控制权时点确认（时点确认），或在某一时段内履行且满足时段确认条件时按履约进度确认（时段确认）。"
+          },
+          {
+            "title": "时点确认 vs 时段确认",
+            "score": 0.1786,
+            "snippet": "时段确认的三个条件：客户在企业履约的同时即取得并消耗经济利益；客户能够控制企业履约过程中的在建商品；企业履约过程中所产出的商品具有不可替代用途，且企业有权就累计至今已完成的履约部分收取款项。装卸服务通常采用时点确认（控制权在装卸完成时转移）；存储/运输等跨期服务若满足时段确认条件按履约进度分期确认。销售折扣（sales rebate）作为可变对价，需在交易价格中估计。"
+          },
+          {
+            "title": "信贷风险：IRB 与 PD/LGD",
+            "score": 0.1024,
+            "snippet": "内部评级法（IRB）：银行基于内部数据估计借款人违约概率 PD、违约损失率 LGD、违约风险敞口 EAD，并据此计算风险加权资产与资本要求，比标准法更灵敏。贷后五级分类（正常/关注/次级/可疑/损失）结合财务指标（偿债、盈利、营运、现金流）、押品估值、负面舆情交叉验证，用于预判信用风险与减值计提。"
+          }
+        ]
+      },
+      "ms": 2
+    },
+    {
+      "tool": "rag_search",
+      "args": {
+        "query": "流动比率 速动比率 偿债能力 财务指标 分析"
+      },
+      "result": {
+        "results": [
+          {
+            "title": "信贷风险：IRB 与 PD/LGD",
+            "score": 0.2063,
+            "snippet": "内部评级法（IRB）：银行基于内部数据估计借款人违约概率 PD、违约损失率 LGD、违约风险敞口 EAD，并据此计算风险加权资产与资本要求，比标准法更灵敏。贷后五级分类（正常/关注/次级/可疑/损失）结合财务指标（偿债、盈利、营运、现金流）、押品估值、负面舆情交叉验证，用于预判信用风险与减值计提。"
+          },
+          {
+            "title": "估值：DCF / WACC / 可比公司法",
+            "score": 0.0963,
+            "snippet": "收益法（DCF）：企业价值 = Σ 各期自由现金流(FCFF)按加权平均资本成本(WACC)折现 + 终值。终值常用永续增长模型 Gordon = FCFF_N×(1+g)/(WACC-g)。WACC = E/(E+D)·Re + D/(E+D)·Rd·(1-T)。市场法可比公司法：用 EV/EBITDA、EV/Sales、P/E 等乘数对可比公司估值后乘目标公司指标。涉及多轮融资复杂资本结构时，用期权定价模型(OPM)结合 Black-Scholes 在股东之间分配价值，并考虑流动性折价(DLOM)。"
+          },
+          {
+            "title": "IFRS9 金融工具分类与减值",
+            "score": 0.0666,
+            "snippet": "IFRS 9 金融资产分类基于业务模式（Business Model）与合同现金流特征（SPPI）双维度，分为：以摊余成本计量（AC）、以公允价值计量且变动计入其他综合收益（FVOCI）、以公允价值计量且变动计入当期损益（FVPL）。减值采用预期信用损失（ECL）模型，分三阶段：阶段一（初始确认，12 个月预期损失）、阶段二（信用风险显著增加，全生命周期预期损失）、阶段三（已发生信用减值）。ECL ≈ 违约概率 PD × 违约损失率 LGD × 违约敞口 EAD。"
+          }
+        ]
+      },
+      "ms": 1
+    },
+    {
+      "tool": "rag_search",
+      "args": {
+        "query": "存货周转率 应收账款周转率 运营效率 周转天"
+      },
+      "result": {
+        "results": [
+          {
+            "title": "信贷风险：IRB 与 PD/LGD",
+            "score": 0.0793,
+            "snippet": "内部评级法（IRB）：银行基于内部数据估计借款人违约概率 PD、违约损失率 LGD、违约风险敞口 EAD，并据此计算风险加权资产与资本要求，比标准法更灵敏。贷后五级分类（正常/关注/次级/可疑/损失）结合财务指标（偿债、盈利、营运、现金流）、押品估值、负面舆情交叉验证，用于预判信用风险与减值计提。"
+          },
+          {
+            "title": "IFRS9 金融工具分类与减值",
+            "score": 0.0651,
+            "snippet": "IFRS 9 金融资产分类基于业务模式（Business Model）与合同现金流特征（SPPI）双维度，分为：以摊余成本计量（AC）、以公允价值计量且变动计入其他综合收益（FVOCI）、以公允价值计量且变动计入当期损益（FVPL）。减值采用预期信用损失（ECL）模型，分三阶段：阶段一（初始确认，12 个月预期损失）、阶段二（信用风险显著增加，全生命周期预期损失）、阶段三（已发生信用减值）。ECL ≈ 违约概率 PD × 违约损失率 LGD × 违约敞口 EAD。"
+          },
+          {
+            "title": "审计：SOX / C-SOX 内控测试",
+            "score": 0.0565,
+            "snippet": "SOX 与 C-SOX 要求管理层对财务报告内部控制有效性负责，审计师执行穿行测试（walkthrough）与控制测试（control testing）。流程：识别业务循环（收入、采购、存货、资金、薪金等）→ 梳理关键风险控制点 → 设计并执行穿行测试验证控制设计与执行 → 用控制测试抽样验证控制运行有效性 → 评估缺陷（重大缺陷/重要缺陷）并推动整改。风险评估矩阵用于将风险与控制对应。"
+          }
+        ]
+      },
+      "ms": 1
+    },
+    {
+      "tool": "rag_search",
+      "args": {
+        "query": "持续经营 财务报表列报 会计估计 风险警示"
+      },
+      "result": {
+        "results": [
+          {
+            "title": "信贷风险：IRB 与 PD/LGD",
+            "score": 0.1877,
+            "snippet": "内部评级法（IRB）：银行基于内部数据估计借款人违约概率 PD、违约损失率 LGD、违约风险敞口 EAD，并据此计算风险加权资产与资本要求，比标准法更灵敏。贷后五级分类（正常/关注/次级/可疑/损失）结合财务指标（偿债、盈利、营运、现金流）、押品估值、负面舆情交叉验证，用于预判信用风险与减值计提。"
+          },
+          {
+            "title": "审计：SOX / C-SOX 内控测试",
+            "score": 0.1507,
+            "snippet": "SOX 与 C-SOX 要求管理层对财务报告内部控制有效性负责，审计师执行穿行测试（walkthrough）与控制测试（control testing）。流程：识别业务循环（收入、采购、存货、资金、薪金等）→ 梳理关键风险控制点 → 设计并执行穿行测试验证控制设计与执行 → 用控制测试抽样验证控制运行有效性 → 评估缺陷（重大缺陷/重要缺陷）并推动整改。风险评估矩阵用于将风险与控制对应。"
+          },
+          {
+            "title": "IFRS9 金融工具分类与减值",
+            "score": 0.0596,
+            "snippet": "IFRS 9 金融资产分类基于业务模式（Business Model）与合同现金流特征（SPPI）双维度，分为：以摊余成本计量（AC）、以公允价值计量且变动计入其他综合收益（FVOCI）、以公允价值计量且变动计入当期损益（FVPL）。减值采用预期信用损失（ECL）模型，分三阶段：阶段一（初始确认，12 个月预期损失）、阶段二（信用风险显著增加，全生命周期预期损失）、阶段三（已发生信用减值）。ECL ≈ 违约概率 PD × 违约损失率 LGD × 违约敞口 EAD。"
+          }
+        ]
+      },
+      "ms": 1
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "asset_turnover",
+        "params": {
+          "revenue": 1200.0,
+          "receivables": 300.0
+        }
+      },
+      "result": {
+        "error": "'total_assets'"
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "asset_turnover",
+        "params": {
+          "revenue": 1000.0,
+          "receivables": 250.0
+        }
+      },
+      "result": {
+        "error": "'total_assets'"
+      },
+      "ms": 0
+    },
+    {
+      "tool": "calc_financial_model",
+      "args": {
+        "model_name": "asset_turnover",
+        "params": {
+          "revenue": 420.0,
+          "receivables": 90.0
+        }
+      },
+      "result": {
+        "error": "'total_assets'"
+      },
+      "ms": 0
+    },
+    {
+      "tool": "run_python",
+      "args": {
+        "code": "\n# 应收账款周转率 = 收入 / 平均应收账款\ndata = {\n    '300001_2023': {'rev':1200, 'ar':300},\n    '300001_2022': {'rev':1000, 'ar':250},\n    '601004_2023': {'rev':420, 'ar':90},\n    '601004_2022': {'rev':None, 'ar':None},\n}\nfor k,v in data.items():\n    if v['rev'] and v['ar']:\n        t = v['rev']/v['ar']\n        days = 360/t\n        print(f\"{k}: AR turnover={t:.2f}, 收现天数={days:.1f}天\")\n"
+      },
+      "result": {
+        "ok": true,
+        "exit_code": 0,
+        "stdout": "300001_2023: AR turnover=4.00, 收现天数=90.0天\n300001_2022: AR turnover=4.00, 收现天数=90.0天\n601004_2023: AR turnover=4.67, 收现天数=77.1天\n",
+        "stderr": "",
+        "timed_out": false
+      },
+      "ms": 73
+    }
+  ],
+  "iterations": 39,
+  "elapsed_ms": 53484
+}

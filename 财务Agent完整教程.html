@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智能财务分析 Agent · 完整教程（零基础）</title>
+<style>
+  :root{--bg:#0f1419;--panel:#1a212b;--panel2:#222b37;--ink:#e6edf3;--muted:#8b98a5;
+    --accent:#4da3ff;--accent2:#7ee0b8;--warn:#ffb86b;--danger:#ff7b7b;--code:#161c25;--border:#2c3742;}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.8 "Segoe UI","Microsoft YaHei",sans-serif;}
+  .wrap{max-width:1000px;margin:0 auto;padding:32px 24px 120px;}
+  h1{font-size:28px;margin:0 0 6px}
+  h2{font-size:22px;margin:56px 0 12px;padding-left:10px;border-left:4px solid var(--accent);scroll-margin-top:70px}
+  h3{font-size:18px;margin:30px 0 8px;color:var(--accent2);scroll-margin-top:70px}
+  .sub{color:var(--muted);margin-bottom:24px}
+  p{margin:10px 0}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin:16px 0}
+  code{background:var(--code);padding:2px 7px;border-radius:5px;font-family:"Cascadia Code",Consolas,monospace;font-size:14px;color:#ffd47f}
+  pre{background:var(--code);border:1px solid var(--border);border-radius:8px;padding:14px 16px;overflow:auto;font-family:"Cascadia Code",Consolas,monospace;font-size:13.5px;line-height:1.7}
+  pre code{background:none;padding:0;color:#d7e3ee}
+  .cm{color:#6a9955}.kw{color:#c586c0}.fn{color:#4da3ff}.st{color:#ce9178}.num{color:#b5cea8}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14.5px}
+  th,td{border:1px solid var(--border);padding:9px 11px;text-align:left;vertical-align:top}
+  th{background:var(--panel2)}
+  .note{background:#242b20;border-left:4px solid var(--accent2);padding:11px 15px;border-radius:6px;margin:12px 0}
+  .warn{background:#2b2220;border-left:4px solid var(--warn);padding:11px 15px;border-radius:6px;margin:12px 0}
+  .danger{background:#2b1f22;border-left:4px solid var(--danger);padding:11px 15px;border-radius:6px;margin:12px 0}
+  ul,ol{margin:8px 0;padding-left:24px}li{margin:6px 0}
+  .step{background:var(--panel2);border-radius:8px;padding:4px 16px;margin:10px 0}
+  .word{background:var(--panel2);border-radius:8px;padding:12px 16px;margin:10px 0;border-left:3px solid var(--accent)}
+  .word b{color:var(--accent)}
+  .qa{background:var(--panel2);border-radius:8px;padding:12px 16px;margin:10px 0;border-left:3px solid var(--accent2);scroll-margin-top:70px}
+  .qa .q{color:var(--accent);font-weight:bold}
+  .qa .a{color:var(--accent2)}
+  .path{color:var(--accent2);font-family:Consolas,monospace;font-size:14px}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  /* 导航目录 */
+  nav.toc{position:sticky;top:0;background:var(--panel);border-bottom:1px solid var(--border);padding:12px 16px;border-radius:0 0 10px 10px;z-index:10;margin:0 -24px 20px}
+  nav.toc a{display:inline-block;margin:2px 8px 2px 0;padding:2px 10px;border-radius:14px;font-size:13.5px;background:var(--panel2);border:1px solid var(--border)}
+  nav.toc a:hover{background:var(--accent);color:#0f1419}
+  .tag{display:inline-block;padding:1px 9px;border-radius:12px;font-size:12.5px;margin:0 4px 4px 0;border:1px solid var(--border)}
+  .tag.a{color:var(--accent2);border-color:var(--accent2)}
+  .tag.b{color:var(--warn);border-color:var(--warn)}
+  .tag.c{color:var(--danger);border-color:var(--danger)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>智能财务分析 Agent · 完整教程（零基础）</h1>
+<div class="sub">Python / FastAPI / LLM / Function Calling / RAG —— 从「电脑怎么运行」到「面试怎么答」一页讲完</div>
+
+<!-- ============ 导航目录 ============ -->
+<nav class="toc">
+<b style="color:var(--accent2)">目录：</b>
+<a href="#p0">0 电脑现状</a>
+<a href="#p1">1 终端/VS Code/CLI</a>
+<a href="#p2">2 命令逐词</a>
+<a href="#p3">3 本地还是云端</a>
+<a href="#p4">4 三种运行方式</a>
+<a href="#p5">5 术语词典</a>
+<a href="#p6">6 代码逐行</a>
+<a href="#p7">7 财务公式+面试</a>
+<a href="#p8">8 常见问题FAQ</a>
+<a href="#p9">9 诚实度+掌握程度</a>
+<a href="#p10">10 小练习</a>
+</nav>
+
+<!-- ==================== 0 ==================== -->
+<h2 id="p0">第 0 步：你电脑现在是什么状态（先放心）</h2>
+<div class="card">
+<p>已检查过你的电脑：<b>该装的都装好了，不用再装任何东西</b>。</p>
+<table>
+<tr><th>东西</th><th>状态</th><th>在哪</th></tr>
+<tr><td>Python（运行代码的程序）</td><td>已装 3.14</td><td class="path">C:\Python314\python.exe</td></tr>
+<tr><td>pip（装软件包的工具）</td><td>已装</td><td>跟着 Python</td></tr>
+<tr><td>fastapi / uvicorn / requests / dotenv / pydantic / pytest 等库</td><td>已装好</td><td>Python 库里</td></tr>
+<tr><td>项目代码</td><td>在硬盘</td><td class="path">C:\Users\10147\Desktop\简历\finance-agent</td></tr>
+<tr><td>DeepSeek API key</td><td>已填好</td><td class="path">finance-agent\.env</td></tr>
+<tr><td>示例数据库</td><td>已生成</td><td class="path">finance-agent\data\finance.db</td></tr>
+</table>
+</div>
+
+<!-- ==================== 1 ==================== -->
+<h2 id="p1">第 1 步：VS Code 是什么？CLI 是什么？</h2>
+<div class="card">
+<h3>先分清三个东西</h3>
+<table>
+<tr><th>名字</th><th>中文</th><th>是什么</th><th>长啥样</th></tr>
+<tr><td><b>VS Code</b></td><td>代码编辑器</td><td>一个软件（有图标、可点击、有菜单）。用它打开文件、看代码、改代码。<b>它不是 CLI</b>，它是图形界面软件（GUI）。</td><td>有菜单栏、左边文件列表、右边代码区</td></tr>
+<tr><td><b>终端 / Terminal</b></td><td>命令行窗口</td><td>VS Code 里的一个<b>小面板</b>。在它里面打字、按回车，电脑就执行。黑底白字那个。</td><td>黑框，一行行文字</td></tr>
+<tr><td><b>CLI</b></td><td>命令行界面</td><td>一种<b>交互方式</b>的名字（Command Line Interface，用打字下命令），不是一个软件。终端就是 CLI 的一种。</td><td>—</td></tr>
+</table>
+<div class="note"><b>一句话：</b>VS Code 是「编辑器 + 内置终端」的合体软件。编辑器用来<b>看和改</b>代码；终端用来<b>运行</b>代码。CLI = "打字下命令"这种方式的统称。<b>所以：VS Code 本身不是 CLI，但它的终端是 CLI。</b></div>
+
+<h3>打开终端（记住这一招就够了）</h3>
+<div class="step">菜单栏点 <b>「终端」→「新建终端」</b>，或按键盘 <b>Ctrl + `</b>（` 在键盘左上角、数字 1 左边、Esc 下边）。屏幕底部弹出一块黑框 = 终端。</div>
+
+<h3>终端里两个必须知道的真相</h3>
+<ol>
+<li><b>终端有"当前所在位置"</b>。它不会自动跑到项目文件夹。刚打开时通常在 <code>C:\Users\10147</code>（你的用户主目录）。要先 <code>cd</code> 到项目文件夹，后面的命令才找得到代码。</li>
+<li><b>它一直待命</b>。敲完一条命令、看到输出，它还在那，可以继续敲下一条。除非你让它跑"永不退出"的东西（比如服务器）。</li>
+</ol>
+</div>
+
+<!-- ==================== 2 ==================== -->
+<h2 id="p2">第 2 步：命令每个词什么意思</h2>
+<div class="word"><b>cd finance-agent</b> —— 进入文件夹。<code>cd</code>=change directory 切换目录。<br>
+<span class="warn">⚠️ 你会报错「找不到路径 C:\Users\10147\finance-agent」，因为终端当前在 <code>C:\Users\10147</code>（你的用户主目录），不是桌面。项目实际在桌面下的「简历」文件夹里。</span><br>
+<b>正确写法（用完整路径）：</b><br>
+<code>cd C:\Users\10147\Desktop\简历\finance-agent</code></div>
+
+<div class="word"><b>pip install -r requirements-dev.txt</b> —— 装软件包。<code>pip</code>=Python 应用商店，<code>install</code>=安装，<code>-r 清单文件</code>=照清单批量装。类比：照购物清单下载 app。（你的已装好，可跳过）</div>
+
+<div class="word"><b>cp .env.example .env</b> —— <code>cp</code>=copy 复制，「从哪 到哪」。把模板复制成真实配置文件。<br>
+<b>⚠️ 不是"把 example 换成你的 key"！</b> 正确两步：<br>① 先 <code>cp .env.example .env</code>（复制出 .env 文件）<br>② 用编辑器打开 .env，把里面 <code>sk-your-key-here</code> 这行替换成你的真 key。<br>你的 .env 已经填好了，这步跳过。</div>
+
+<div class="word"><b>python -c "..."</b> —— 用 Python 执行引号里的代码，执行完退出。双引号里是代码，<code>;</code> 等于换行（两句写一行）。</div>
+
+<!-- ==================== 3 ==================== -->
+<h2 id="p3">第 3 步：财务模型、RAG、数据库、pytest 都在本地吗？</h2>
+<div class="card">
+<p><b>全在本地，全在 finance-agent 文件夹里，项目自带。</b></p>
+<table>
+<tr><th>东西</th><th>在哪</th><th>是什么</th></tr>
+<tr><td>财务模型</td><td class="path">app\tools\financial_models.py</td><td>一个文件，写满计算公式的函数</td></tr>
+<tr><td>RAG 检索</td><td class="path">app\tools\rag.py + app\knowledge\corpus.json</td><td>检索代码 + 知识库文字</td></tr>
+<tr><td>数据库</td><td class="path">data\finance.db</td><td>一个 SQLite 文件，存 4 家公司财务数字</td></tr>
+<tr><td>pytest 测试</td><td class="path">tests\test_financial_models.py</td><td>验证公式对不对的检查</td></tr>
+</table>
+<p><b>唯一要联网</b>的：让 DeepSeek 大模型做决策（要 key、花几秒钱）。算公式、查库、检索全离线免费。</p>
+</div>
+
+<!-- ==================== 4 ==================== -->
+<h2 id="p4">第 4 步：三种运行方式（推荐用方式一：网页）</h2>
+<div class="danger"><b>共用第一步（所有方式都要先做）：</b>打开终端 → 敲这一行 → 回车：<br>
+<code>cd C:\Users\10147\Desktop\简历\finance-agent</code><br>
+敲完按回车，<b>没有任何输出是正常的</b>（cd 成功时不说话）。然后才能做下面三种方式。</div>
+
+<div class="card">
+<h3>方式一（最推荐）：网页界面 —— 像用 ChatGPT 一样用这个 Agent</h3>
+<p>我已经给项目做好了一个网页界面，文件在 <code>web/index.html</code>，并且接到了 FastAPI 上。</p>
+<div class="note"><b>懒人版（推荐小白用）：</b>直接双击项目文件夹里的 <code>一键启动.bat</code>。它会自动切到项目目录、启动服务器、自动打开浏览器。看到黑窗口里出现 <code>Uvicorn running</code> 就成了。<b>关服务：在黑窗口按 Ctrl + C，或直接关掉那个窗口。</b><br>
+<span class="warn">（脚本里 <code>cd /d "%~dp0"</code> 这行的作用 = 自动跳到"这个 bat 文件所在的文件夹"，所以不管你从哪双击都不会迷路。这正是你手敲 cd 容易出错的地方。）</span></div>
+
+<div class="step">
+<b>手动操作 4 步，一步都别跳：</b><br>
+<b>①</b> 在 VS Code 终端敲：<code>uvicorn app.main:app --reload</code> 然后回车。<br>
+<b>②</b> 看到类似 <code>Uvicorn running on http://127.0.0.1:8000</code> 的文字 = 服务器起来了。<b>这个终端别关，也别在里面敲别的</b>，它就停在这跑着。<br>
+<b>③</b> 打开浏览器（Chrome / Edge 都行），地址栏输入：<code>http://localhost:8000</code> 回车。<br>
+<b>④</b> 出现一个深色页面，上面有输入框 → 打字问问题 → 点「开始分析」→ 等 10~60 秒 → 答案和「工具调用过程」都显示在页面上。
+</div>
+<div class="note"><b>网页怎么用：</b>输入框写问题（或点下面灰色小标签直接套用示例）→ 点「开始分析」→ 等一会儿。页面会显示两部分：① 完整分析报告（带表格）②「🔧 工具调用过程」折叠面板，能看到 Agent 每一步调了哪个工具、什么参数、花了几毫秒。<b>这个面板就是简历里说的 tool_trace，面试直接给它看。</b></div>
+<div class="warn"><b>页面顶部提示"连不上后端"？</b>说明终端那步没做或失败了。回去检查 ①②：终端里是不是真的显示了 <code>Uvicorn running</code>。「Ctrl+C」可以停掉服务器。</div>
+<div class="note"><b>怎么关掉？</b>回到那个终端，按 <b>Ctrl + C</b>，服务器停。浏览器页面就可以关了。下次要再用，重复 ①③。</div>
+
+<h3>方式二：终端里直接跑（不用开服务器，最快）</h3>
+<pre><code>python -c "from dotenv import load_dotenv; load_dotenv(); from app.agent.loop import analyze; print(analyze('算一下深圳云科技2023年的毛利率')['answer'])"</code></pre>
+<p>问题写在最后引号里，改中间那句中文就能问别的。按回车，<b>答案直接打印在终端</b>。缺点：输出没有排版，表格会挤成一行。</p>
+
+<h3>方式三：终端里用 curl 发请求（给面试演示"这是个 API 服务"用）</h3>
+<p>先起服务（同方式一 ①②），然后<b>再开一个新终端</b>（菜单「终端 → 新建终端」），敲：</p>
+<pre><code>curl -X POST http://localhost:8000/api/agent/analyze -H "Content-Type: application/json" -d "{\"query\":\"算一下深圳云科技2023毛利率\"}"</code></pre>
+<div class="note"><b>为什么要"再开一个新终端"？</b>因为 <code>uvicorn</code> 会一直跑、占住那个窗口不停刷日志，同一个窗口没法再敲命令（敲进去会被服务器日志冲掉）。所以开两个窗口：一个跑服务器（一直停着），另一个发请求。</div>
+<div class="warn"><b>为什么你 uvicorn 会报错「无法将 uvicorn 项识别为...」？</b>两种原因：① 你没先 <code>cd</code> 到项目目录（人还在 <code>C:\Users\10147</code>，那里没代码）；② Windows 下 <code>uvicorn</code> 这个短命令没进 PATH。万能写法是加 <code>python -m</code> 前缀：<br>
+<code>python -m uvicorn app.main:app --reload</code> ← <b>用这条更保险</b></div>
+<div class="note"><b>"生成网页"到底是谁做的？</b>服务器（uvicorn）负责<b>把网页文件和接口发出去</b>；网页本身是 <code>web/index.html</code> 这个文件，我提前写好了放在项目里。浏览器打开 <code>http://localhost:8000</code> 时，服务器把 index.html 内容发给浏览器，浏览器渲染成你能看的页面。这就是"网页"的完整链路。</div>
+</div>
+
+<!-- ==================== 5 ==================== -->
+<h2 id="p5">第 5 步：术语词典（大白话）</h2>
+
+<div class="word"><b>Python</b> —— 一种编程语言，也是你电脑上的程序。.py 文件是"用 Python 说的话"。免费开源。</div>
+<div class="word"><b>包 / 库 / 依赖</b> —— 别人写好的打包代码，import 就能用。pip 负责下载。绝大多数免费开源。</div>
+<div class="word"><b>import</b> —— "把这个库拿过来用"。类比从工具箱拿扳手。</div>
+<div class="word"><b>函数（function）</b> —— 一段起好名字、可反复调用的代码。进去几个数，出来一个结果。</div>
+<div class="word"><b>模块（module）</b> —— 一个 .py 文件 = 一个模块。<code>app.tools.db</code> 指 <code>app/tools/db.py</code>。点号 = 文件夹层级。</div>
+<div class="word"><b>API</b> —— 程序之间"下单"的接口。类比餐厅菜单：点菜→做菜→上菜。</div>
+<div class="word"><b>API key</b> —— 调用收费 API 的"钥匙"。证明是你在用、钱记你账。要保密。</div>
+<div class="word"><b>LLM（大语言模型）</b> —— ChatGPT、DeepSeek 这类会聊天推理的 AI。在线服务，要联网要 key 要花钱。</div>
+<div class="word"><b>DeepSeek</b> —— 国产 LLM，有 API。本项目调它当"大脑"。</div>
+<div class="word"><b>Function Calling（函数调用）</b> —— 让 LLM 不只聊天、还能"喊你帮忙做事"。你告诉它有哪些工具，它回"我要调 X 工具、参数是…"，你执行完塞回给它。Agent 核心。</div>
+<div class="word"><b>Agent（智能体）</b> —— 能自己决定下一步做什么的程序。普通程序让算 A 算 A；Agent 自己判断先查库再算指标。</div>
+<div class="word"><b>RAG（检索增强生成）</b> —— 让模型先查资料再回答，不瞎编。流程：搜出相关文字→拼进提示词→照着回答。</div>
+<div class="word"><b>TF-IDF</b> —— 一个"文字找相似"的算法，几十年前经典方法，<b>公开免费、不是公司产品</b>。出现多的词重要(TF)，太常见词不重要(IDF)，相乘得权重，再比夹角(余弦相似度)。本项目用 Python 自己实现，不联网不花钱。</div>
+<div class="word"><b>余弦相似度</b> —— 比较两个向量方向多接近，0~1，越接近 1 越像。</div>
+<div class="word"><b>向量 / 向量化</b> —— 把文字变成一串数字。TF-IDF 是一种变法；更高级用 embedding 模型。</div>
+<div class="word"><b>SQL</b> —— 跟数据库说话的查询语言。<code>SELECT * FROM companies</code> = 把 companies 表所有列给我。</div>
+<div class="word"><b>数据库（database）</b> —— 专门存数据、能快速查询的东西。类比结构化账本。</div>
+<div class="word"><b>SQLite</b> —— 轻量数据库，<b>整个库就是磁盘一个文件</b>（本项目 data/finance.db）。不用装服务器，Python 自带，免费离线。</div>
+<div class="word"><b>表（table）</b> —— 数据库里一张表格。本项目两张：companies（公司）、financials（财务数字）。</div>
+<div class="word"><b>FastAPI</b> —— Python 库，快速搭"网站后端接口"。把函数变成网址。<code>@app.get("/health")</code> = 访问该网址触发函数。</div>
+<div class="word"><b>uvicorn</b> —— 服务器程序，真把 FastAPI 网站跑起来、接访问。</div>
+<div class="word"><b>pytest</b> —— 自动检查库。写"答案应该是 X"的断言，挨个跑看对不对。</div>
+<div class="word"><b>Docker</b> —— 把项目打包进"集装箱"，到任何电脑原样运行。</div>
+<div class="word"><b>GitHub Actions / CI</b> —— 改完代码推到 GitHub，自动云端跑测试。CI=持续集成。</div>
+<div class="word"><b>JSON</b> —— 存数据的文本格式，键值对。<code>{"name":"深圳云科技"}</code>。</div>
+<div class="word"><b>JSON Schema</b> —— 描述"JSON 长什么样"的规范。Function Calling 用它告诉模型工具要什么参数。</div>
+<div class="word"><b>.env / 环境变量</b> —— 放敏感配置（如 key）的文件，不写死在代码里。</div>
+<div class="word"><b>开源（open source）</b> —— 代码公开、免费看免费用。Python/fastapi/SQLite/pytest/TF-IDF 都开源。</div>
+<div class="word"><b>子进程（subprocess）</b> —— 开独立小进程跑代码，出错不拖垮主程序。</div>
+<div class="word"><b>超时（timeout）</b> —— 限制最多等多久，超过强制停，防卡死。</div>
+<div class="word"><b>temperature（温度）</b> —— 控制模型回答随机性的参数。见 <a href="#q6">FAQ-6</a>。</div>
+
+<!-- ==================== 6 ==================== -->
+<h2 id="p6">第 6 步：全部代码逐行解析</h2>
+<p><code>#</code> 开头 = 注释（给人看，电脑忽略）。</p>
+
+<h3>6.1 app/main.py —— 网站入口（最小）</h3>
+<pre><code><span class="kw">import</span> os                         <span class="cm"># os 库：操作文件/系统</span>
+<span class="kw">from</span> dotenv <span class="kw">import</span> load_dotenv    <span class="cm"># dotenv 库：读 .env</span>
+load_dotenv()                     <span class="cm"># 把 .env 里的 key 读进内存</span>
+<span class="kw">from</span> fastapi <span class="kw">import</span> FastAPI          <span class="cm"># fastapi 库：搭网站</span>
+<span class="kw">from</span> app.tools <span class="kw">import</span> TOOLS, db    <span class="cm"># 工具清单 + 数据库</span>
+<span class="kw">from</span> app.agent.loop <span class="kw">import</span> analyze <span class="cm"># Agent 主函数</span>
+app = FastAPI()                   <span class="cm"># 创建网站应用</span>
+
+@app.get(<span class="st">"/health"</span>)                <span class="cm"># 访问 /health 触发下面函数</span>
+<span class="kw">def</span> <span class="fn">health</span>():
+    <span class="kw">return</span> {<span class="st">"status"</span>:<span class="st">"ok"</span>, <span class="st">"tools"</span>:len(TOOLS)}   <span class="cm"># 返回"我活着"+工具数</span>
+
+@app.post(<span class="st">"/api/agent/analyze"</span>)      <span class="cm"># 主接口</span>
+<span class="kw">def</span> <span class="fn">analyze</span>(req: AnalyzeRequest):
+    <span class="kw">return</span> agent_analyze(req.query)   <span class="cm"># 问题丢给 Agent，返回结果</span></code></pre>
+
+<h3>6.2 app/agent/loop.py —— Agent 大脑（核心）</h3>
+<pre><code><span class="kw">import</span> json, os, time            <span class="cm"># json处理JSON / os系统 / time计时</span>
+<span class="kw">import</span> requests                  <span class="cm"># requests：发网络请求（跟 DeepSeek 说话）</span>
+<span class="kw">from</span> app.tools <span class="kw">import</span> TOOLS, dispatch  <span class="cm"># 工具清单 + 执行器</span>
+
+MODEL = os.environ.get(<span class="st">"DEEPSEEK_MODEL"</span>, <span class="st">"deepseek-chat"</span>)  <span class="cm"># 用哪个模型</span>
+MAX_ITERS = <span class="num">10</span>                    <span class="cm"># 最多循环 10 次（见 FAQ-4）</span>
+
+SYSTEM_PROMPT = <span class="st">"""你是资深财务分析 Agent……查库用 query_db，
+算指标用 calc_financial_model，查准则用 rag_search……"""</span>   <span class="cm"># 人设+工作守则</span>
+
+<span class="kw">def</span> <span class="fn">_chat</span>(messages):                 <span class="cm"># 把对话发给 DeepSeek，拿回复</span>
+    r = requests.post(f<span class="st">"{BASE_URL}/chat/completions"</span>,
+        json={<span class="st">"model"</span>:MODEL, <span class="st">"messages"</span>:messages, <span class="st">"tools"</span>:TOOLS,
+              <span class="st">"tool_choice"</span>:<span class="st">"auto"</span>, <span class="st">"temperature"</span>:<span class="num">0.2</span>}, timeout=<span class="num">120</span>)  <span class="cm"># 注意 tools 和 temperature 在这</span>
+    <span class="kw">return</span> r.json()[<span class="st">"choices"</span>][<span class="num">0</span>][<span class="st">"message"</span>]   <span class="cm"># 取"回复"</span>
+
+<span class="kw">def</span> <span class="fn">analyze</span>(question):              <span class="cm"># 主函数：输入问题，输出报告</span>
+    messages = [system提示词, user问题]
+    <span class="kw">for</span> _ <span class="kw">in</span> range(MAX_ITERS):        <span class="cm"># 最多 10 轮</span>
+        msg = _chat(messages)
+        tool_calls = msg.get(<span class="st">"tool_calls"</span>)  <span class="cm"># 模型想调工具吗？(见 FAQ-5)</span>
+        <span class="kw">if not</span> tool_calls:            <span class="cm"># 不想调 = 想好了，结束</span>
+            <span class="kw">return</span> {<span class="st">"answer"</span>: msg[<span class="st">"content"</span>], ...}
+        <span class="kw">for</span> tc <span class="kw">in</span> tool_calls:           <span class="cm"># 逐个工具</span>
+            fn = tc[<span class="st">"function"</span>][<span class="st">"name"</span>]
+            args = json.loads(tc[<span class="st">"function"</span>][<span class="st">"arguments"</span>])
+            result = dispatch(fn, args)   <span class="cm"># 真执行</span>
+            trace.append({...})            <span class="cm"># 记日志</span>
+            messages.append({<span class="st">"role"</span>:<span class="st">"tool"</span>, <span class="st">"content"</span>:结果})  <span class="cm"># 结果塞回</span>
+    <span class="kw">return</span> {<span class="st">"answer"</span>:<span class="st">"未收敛"</span>, ...}</code></pre>
+<div class="note"><b>Agent 循环：</b>问模型 → 模型说"要调工具" → 你调 → 结果塞回 → 再问 → 直到模型说"算好了"。</div>
+
+<h3>6.3 app/tools/__init__.py —— 工具清单 + 分发</h3>
+<pre><code><span class="kw">from</span> . <span class="kw">import</span> financial_models <span class="kw">as</span> fm   <span class="cm"># 财务模型</span>
+<span class="kw">from</span> . <span class="kw">import</span> db                      <span class="cm"># 数据库</span>
+<span class="kw">from</span> .rag <span class="kw">import</span> RAG                   <span class="cm"># 检索器</span>
+<span class="kw">from</span> .code_exec <span class="kw">import</span> run <span class="kw">as</span> run_code   <span class="cm"># 子进程执行</span>
+
+TOOLS = [ ... 四个工具定义，见 FAQ-7 ... ]   <span class="cm"># 给模型看的"工具说明书"</span>
+
+<span class="kw">def</span> <span class="fn">dispatch</span>(name, args):           <span class="cm"># 模型喊工具名，路由到真实函数</span>
+    <span class="kw">if</span> name == <span class="st">"query_db"</span>:   <span class="kw">return</span> {<span class="st">"rows"</span>: db.query(args[<span class="st">"sql"</span>])}
+    <span class="kw">if</span> name == <span class="st">"rag_search"</span>: <span class="kw">return</span> {<span class="st">"results"</span>: RAG.search(args[<span class="st">"query"</span>])}
+    ...</code></pre>
+
+<h3>6.4 app/tools/db.py —— 数据库 + 只读保护</h3>
+<pre><code><span class="kw">import</span> sqlite3                   <span class="cm"># sqlite3：Python 自带，操作 SQLite</span>
+
+<span class="kw">def</span> <span class="fn">seed</span>(force=False):           <span class="cm"># 建表 + 塞示例数据</span>
+    c.executescript(<span class="st">"CREATE TABLE companies(...)"</span>)  <span class="cm"># 建公司表</span>
+    c.executemany(<span class="st">"INSERT ..."</span>, companies)          <span class="cm"># 塞 4 家公司</span>
+
+<span class="kw">def</span> <span class="fn">query</span>(sql, limit=50):       <span class="cm"># 执行只读查询</span>
+    s = sql.strip().lower()         <span class="cm"># 去空格、变小写</span>
+    <span class="kw">if not</span> (s.startswith(<span class="st">"select"</span>) <span class="kw">or</span> s.startswith(<span class="st">"with"</span>)):
+        <span class="kw">raise</span> ValueError(<span class="st">"仅允许只读查询"</span>)   <span class="cm"># 非 SELECT 拒绝</span>
+    cur = conn.execute(sql ... LIMIT 50)
+    <span class="kw">return</span> [dict(zip(cols, row)) <span class="kw">for</span> row <span class="kw">in</span> cur.fetchall()]  <span class="cm"># 转字典列表</span></code></pre>
+
+<h3>6.5 app/tools/financial_models.py —— 财务公式</h3>
+<pre><code><span class="kw">def</span> <span class="fn">gross_margin</span>(revenue, cogs):   <span class="cm"># 毛利率</span>
+    <span class="kw">if</span> revenue == <span class="num">0</span>: <span class="kw">return</span> <span class="num">0.0</span>          <span class="cm"># 除 0 保护</span>
+    <span class="kw">return</span> (revenue - cogs) / revenue <span class="cm"># (收入-成本)/收入</span>
+
+<span class="kw">def</span> <span class="fn">wacc</span>(equity, debt, cost_equity, cost_debt, tax_rate):
+    total = equity + debt
+    we, wd = equity/total, debt/total
+    <span class="kw">return</span> we*cost_equity + wd*cost_debt*(<span class="num">1</span>-tax_rate)  <span class="cm"># 加权平均资本成本</span>
+
+<span class="kw">def</span> <span class="fn">expected_loss</span>(pd, lgd, ead):  <span class="cm"># ECL</span>
+    <span class="kw">return</span> pd * lgd * ead          <span class="cm"># 违约概率×损失率×敞口</span>
+
+<span class="kw">def</span> <span class="fn">irr</span>(cashflows, guess=<span class="num">0.1</span>):     <span class="cm"># 内部收益率，牛顿迭代</span>
+    r = guess
+    <span class="kw">for</span> _ <span class="kw">in</span> range(<span class="num">100</span>):
+        v = _npv(r, cashflows); dv = derivative(r)
+        nxt = r - v/dv              <span class="cm"># 牛顿步</span>
+        <span class="kw">if</span> abs(nxt-r) &lt; <span class="num">1e-9</span>: <span class="kw">return</span> nxt
+        r = nxt</code></pre>
+
+<h3>6.6 app/tools/rag.py —— TF-IDF 检索</h3>
+<pre><code><span class="kw">import</span> math, re, json, os       <span class="cm"># math数学/re正则/json/os</span>
+<span class="kw">from</span> collections <span class="kw">import</span> Counter  <span class="cm"># Counter：数词频</span>
+
+<span class="kw">def</span> <span class="fn">_tokenize</span>(text):          <span class="cm"># 把句子切成词（中文按单字+bigram，英文按单词）</span>
+
+<span class="kw">class</span> Retrieval:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):          <span class="cm"># 启动时读知识库、算好每个词权重</span>
+        self.tfs = [Counter(_tokenize(t)) ...]
+        self.idf = {w: math.log((n+<span class="num">1</span>)/(c+<span class="num">1</span>))+<span class="num">1</span> ...}
+    <span class="kw">def</span> <span class="fn">search</span>(self, query, k=<span class="num">3</span>): <span class="cm"># 问题→向量，跟每篇比余弦，取 top-k</span></code></pre>
+
+<h3>6.7 app/tools/code_exec.py —— 子进程跑代码</h3>
+<pre><code><span class="kw">import</span> subprocess, sys        <span class="cm"># subprocess开子进程 / sys拿Python路径</span>
+<span class="kw">def</span> <span class="fn">run</span>(code):
+    p = subprocess.run([sys.executable, <span class="st">"-c"</span>, code],
+                       capture_output=<span class="kw">True</span>, timeout=<span class="num">20</span>)  <span class="cm"># 20秒超时</span>
+    <span class="kw">return</span> {<span class="st">"ok"</span>:..., <span class="st">"stdout"</span>:p.stdout...}</code></pre>
+
+<h3>6.8 tests/test_financial_models.py —— 自动检查</h3>
+<pre><code><span class="kw">def</span> <span class="fn">test_gross_margin</span>():
+    <span class="kw">assert</span> abs(gross_margin(<span class="num">100</span>, <span class="num">60</span>) - <span class="num">0.4</span>) &lt; <span class="num">1e-9</span>  <span class="cm"># 断言(100-60)/100 必须=0.4</span></code></pre>
+
+<!-- ==================== 7 ==================== -->
+<h2 id="p7">第 7 步：财务公式 + 面试问答</h2>
+<table>
+<tr><th>类别</th><th>模型</th><th>公式（要能背）</th></tr>
+<tr><td>比率类</td><td>gross_margin 毛利率</td><td>(收入−成本)/收入</td></tr>
+<tr><td>比率类</td><td>net_margin 净利率</td><td>净利润/收入</td></tr>
+<tr><td>比率类</td><td>current_ratio 流动比率</td><td>流动资产/流动负债</td></tr>
+<tr><td>比率类</td><td>quick_ratio 速动比率</td><td>(流动资产−存货)/流动负债</td></tr>
+<tr><td>比率类</td><td>debt_to_equity 产权比率</td><td>总负债/权益</td></tr>
+<tr><td>比率类</td><td>roe / roa</td><td>净利/权益、净利/总资产</td></tr>
+<tr><td>比率类</td><td>asset_turnover 总资产周转</td><td>收入/总资产</td></tr>
+<tr><td>比率类</td><td>inventory_turnover 存货周转</td><td>营业成本/存货</td></tr>
+<tr><td>估值类</td><td>wacc</td><td>E/(E+D)·Re + D/(E+D)·Rd·(1−T)</td></tr>
+<tr><td>估值类</td><td>dcf 企业价值</td><td>Σ FCF/(1+r)^t + 终值(Gordon)</td></tr>
+<tr><td>估值类</td><td>irr 内部收益率</td><td>使 NPV=0 的贴现率，牛顿迭代求根</td></tr>
+<tr><td>信用类</td><td>expected_loss ECL</td><td>PD × LGD × EAD</td></tr>
+</table>
+<div class="qa"><span class="q">问：IRR 用什么算法？</span><br><span class="a">答：</span>牛顿迭代（Newton-Raphson），用 NPV 一阶导数迭代逼近使 NPV=0 的贴现率。</div>
+<div class="qa"><span class="q">问：DCF 终值怎么算？</span><br><span class="a">答：</span>Gordon 永续增长模型 FCF_N×(1+g)/(r−g)，再折现回第 N 年。</div>
+<div class="qa"><span class="q">问：ECL 三个参数含义？</span><br><span class="a">答：</span>PD 违约概率、LGD 违约损失率（1−回收率）、EAD 违约敞口，三者相乘得预期损失。</div>
+
+<!-- ==================== 8 ==================== -->
+<h2 id="p8">第 8 步：常见问题 FAQ</h2>
+
+<div class="qa" id="q1"><span class="q">Q1：为什么 cd finance-agent 报"找不到路径 C:\Users\10147\finance-agent"？cp 是把 example 换成 key 吗？</span><br>
+<span class="a">答 ①：</span>终端当前在 <code>C:\Users\10147</code>（主目录），那里没有 finance-agent 文件夹。项目在 <code>C:\Users\10147\Desktop\简历\finance-agent</code>。正确：<code>cd C:\Users\10147\Desktop\简历\finance-agent</code>（用完整路径，或先 cd Desktop 再 cd 简历 再 cd finance-agent）。<br>
+<span class="a">答 ②：</span><b>不是换 example。</b> <code>cp</code> 是复制：把 <code>.env.example</code> 复制一份叫 <code>.env</code>。然后打开 .env，把里面 <code>sk-your-key-here</code> 换成你的真 key。你的 .env 已经填好了。</div>
+
+<div class="qa" id="q2"><span class="q">Q2：corpus.json 知识库怎么看到？知识哪来的？怎么补充？SQL 数据库怎么看到？怎么补充？</span><br>
+<span class="a">看知识库：</span>用 VS Code 编辑器直接打开 <code>app/knowledge/corpus.json</code>。里面是 JSON 数组，共 7 条，每条有 title + text。7 个标题：新收入准则五步法 / 时点确认vs时段确认 / IFRS9金融工具分类与减值 / 估值DCF·WACC·可比公司 / 信贷风险IRB与PD·LGD / 审计SOX·C-SOX内控 / 机器学习与NLP基础。<br>
+<span class="a">知识哪来的：</span>项目创建时手工写的常识性财务·审计·估值条目（不是联网抓、不是数据库导入）。<br>
+<span class="a">补充知识：</span>打开 corpus.json，照格式加一条 <code>{"title":"新标题","text":"新内容"}</code>，保存，重启服务即可（rag.py 启动时读一次）。<br>
+<span class="a">看数据库：</span>终端跑 <code>python -c "from app.tools import db; print(db.query('SELECT * FROM companies'))"</code> 和 <code>db.query('SELECT * FROM financials')</code>。<br>
+<span class="a">补充数据：</span>最简单改 <code>data/demo_financials.json</code>（照现有格式加公司/年份），然后 <code>python load_demo.py</code> 重建库；或改 <code>app/tools/db.py</code> 里 seed 函数的数据再重跑 seed。</div>
+
+<div class="qa" id="q3"><span class="q">Q3：uvicorn 报错？"生成网站"是谁做的？为什么再开新终端？</span><br>
+<span class="a">答：</span>报错两种原因：① 没先 <code>cd</code> 到项目目录，人还在 C:\Users\10147，找不到 app 模块；② Windows 下 <code>uvicorn</code> 短命令没进 PATH。万能写法：<code>python -m uvicorn app.main:app --reload</code>。<br>
+<b>网页是谁做的：</b>网页文件 <code>web/index.html</code>（我提前写好的静态文件）+ uvicorn 负责把它发出去 + 后端接口 <code>/api/agent/analyze</code> 负责算答案。浏览器打开 <code>http://localhost:8000</code> 时，服务器把网页发给你，网页再用 JS 去调接口拿结果。这就是一个最小的全栈应用。<br>
+"再开新终端"因为 uvicorn 一直跑、占住窗口刷日志，同一窗口没法再敲命令。开两个窗口：一个跑服务器，一个发请求。</div>
+
+<div class="qa" id="q4"><span class="q">Q4：为什么最多 10 轮？什么情况超 10 轮？</span><br>
+<span class="a">答：</span>对，就是防大模型一直要求调工具、永远不结束。正常问题 1~3 轮结束。超 10 轮可能：模型逻辑混乱、重复调同一工具、或问题太复杂它不停查不停算。10 是上限保险（保险丝），不是目标。设的地方：<code>loop.py</code> 里 <code>MAX_ITERS</code>，值来自 .env 的 <code>AGENT_MAX_ITERS</code>。超了就返回"未收敛"。</div>
+
+<div class="qa" id="q5"><span class="q">Q5：tool_calls = msg.get("tool_calls") 怎么理解？大模型回答自带 tool_calls 字段吗？提示词里会说明吗？</span><br>
+<span class="a">答：</span><code>msg.get("tool_calls")</code> = 从模型返回的 message 里取 tool_calls 字段，没有就返回 None（None = 模型不调工具，直接给最终答案）。<br>
+<b>会自带：</b>因为请求时传了 <code>tools=TOOLS</code> 参数（loop.py 的 _chat 里）。DeepSeek 看到工具列表后，如果觉得"这个问题需要查数据/算指标"，它的返回 message 里就会带 <code>tool_calls</code> 数组；不需要就不带。<br>
+<b>提示词两个层面：</b>① 工具的"说明书"通过请求的 tools 参数传给模型（不是写在 system prompt 文字里），模型读的是 tools 里的 JSON Schema；② system prompt 文字里也确实教了它"什么时候用哪个工具"（第 1~4 条）。</div>
+
+<div class="qa" id="q6"><span class="q">Q6：temperature 是什么？在哪设？设多少为什么？</span><br>
+<span class="a">答：</span>temperature = 采样温度，控制模型回答的<b>随机性</b>。0 = 最确定（几乎每次一样），越高越随机、越"有创意"。财务分析要稳定、数字不能乱编，所以设低 0.2。<br>
+<b>在哪设：</b><code>loop.py</code> 的 <code>_chat</code> 函数里，第 37 行：<code>json={"model":MODEL, ..., "temperature": 0.2, ...}</code>。</div>
+
+<div class="qa" id="q7"><span class="q">Q7：把 4 个工具的 Function Calling 定义逐字段讲清</span><br>
+<span class="a">答：</span>先讲通用结构，每个字段含义：<br>
+<code>"type":"function"</code> —— 声明这是一个"函数型工具"（还有别的类型，这里只用 function）。<br>
+<code>"function"</code> —— 包住工具的具体描述。<br>
+<code>"name"</code> —— 工具名字，模型返回 tool_calls 时用这个名字点你。<br>
+<code>"description"</code> —— 这工具干嘛用。模型靠它决定"什么时候该用这个工具"，写不清楚模型就乱调。<br>
+<code>"parameters"</code> —— 参数说明，用 JSON Schema：<code>type:object</code> 表示参数是一组键值；<code>properties</code> 列出每个参数名和类型；<code>required</code> 列哪些参数必须给。</div>
+<div class="card">
+<b>完整 4 个工具：</b>
+<pre><code><span class="cm"># 工具1：查数据库</span>
+{<span class="st">"type"</span>:<span class="st">"function"</span>, <span class="st">"function"</span>:{
+  <span class="st">"name"</span>:<span class="st">"query_db"</span>,
+  <span class="st">"description"</span>:<span class="st">"对财务数据库执行只读 SQL 查询（SELECT/WITH）"</span>,
+  <span class="st">"parameters"</span>:{<span class="st">"type"</span>:<span class="st">"object"</span>, <span class="st">"properties"</span>:{<span class="st">"sql"</span>:{<span class="st">"type"</span>:<span class="st">"string"</span>}}, <span class="st">"required"</span>:[<span class="st">"sql"</span>]}
+}}
+
+<span class="cm"># 工具2：算财务模型（你的截图这个）</span>
+{<span class="st">"type"</span>:<span class="st">"function"</span>, <span class="st">"function"</span>:{
+  <span class="st">"name"</span>:<span class="st">"calc_financial_model"</span>,
+  <span class="st">"description"</span>:<span class="st">"计算财务模型/指标，如毛利率、WACC、DCF、IRR、预期信用损失"</span>,
+  <span class="st">"parameters"</span>:{<span class="st">"type"</span>:<span class="st">"object"</span>, <span class="st">"properties"</span>:{
+      <span class="st">"model_name"</span>:{<span class="st">"type"</span>:<span class="st">"string"</span>},   <span class="cm"># 要算哪个模型，如 gross_margin</span>
+      <span class="st">"params"</span>:{<span class="st">"type"</span>:<span class="st">"object"</span>}         <span class="cm"># 模型要的数字，如 revenue/cogs</span>
+    }, <span class="st">"required"</span>:[<span class="st">"model_name"</span>,<span class="st">"params"</span>]}
+}}
+
+<span class="cm"># 工具3：RAG 检索</span>
+{<span class="st">"type"</span>:<span class="st">"function"</span>, <span class="st">"function"</span>:{
+  <span class="st">"name"</span>:<span class="st">"rag_search"</span>,
+  <span class="st">"description"</span>:<span class="st">"在会计准则/审计/估值知识库做语义检索（RAG）"</span>,
+  <span class="st">"parameters"</span>:{<span class="st">"type"</span>:<span class="st">"object"</span>, <span class="st">"properties"</span>:{<span class="st">"query"</span>:{<span class="st">"type"</span>:<span class="st">"string"</span>}}, <span class="st">"required"</span>:[<span class="st">"query"</span>]}
+}}
+
+<span class="cm"># 工具4：跑 Python 脚本</span>
+{<span class="st">"type"</span>:<span class="st">"function"</span>, <span class="st">"function"</span>:{
+  <span class="st">"name"</span>:<span class="st">"run_python"</span>,
+  <span class="st">"description"</span>:<span class="st">"执行一小段 Python 财务运算脚本（复现计算/格式化输出）"</span>,
+  <span class="st">"parameters"</span>:{<span class="st">"type"</span>:<span class="st">"object"</span>, <span class="st">"properties"</span>:{<span class="st">"code"</span>:{<span class="st">"type"</span>:<span class="st">"string"</span>}}, <span class="st">"required"</span>:[<span class="st">"code"</span>]}
+}}</code></pre>
+<div class="note">模型"调用工具"时回的东西长这样（这就是 loop.py 里读的 tool_calls）：<code>{"id":"...","function":{"name":"calc_financial_model","arguments":"{\"model_name\":\"gross_margin\",\"params\":{\"revenue\":1200,\"cogs\":700}}"}}</code> —— name 是工具名，arguments 是 JSON 字符串（要 json.loads 转成 dict），id 用来对应回填。</div>
+</div>
+
+<!-- ==================== 9 ==================== -->
+<h2 id="p9">第 9 步：诚实度 + 掌握程度</h2>
+<div class="danger"><b>结论：简历上不写"Claude Code 生成"。</b>简历写项目 + 你做的事，工具不是内容。AI 辅助写代码是行业普遍、合法、加分项（体现 AI Coding 能力）。面试问就大方说"AI 协作、我主导设计、逐行验证"。<br>
+<b>红线：</b>简历写了什么你必须讲清什么。问"IRR 什么算法"答不上 = 造假感，比"用了 AI"严重一百倍。</div>
+<table>
+<tr><th>等级</th><th>内容</th><th>要求</th></tr>
+<tr><td><span class="tag a">必会</span></td><td>Agent 循环回填原理 / Function Calling 原理 / 每个财务公式 / IRR=牛顿迭代 / DCF=折现+终值 / ECL=PD×LGD×EAD / RAG 用 TF-IDF 原因 / 只读 SQL 防写 / temperature</td><td>一句话说清 + 指代码文件</td></tr>
+<tr><td><span class="tag b">能讲流程</span></td><td>FastAPI 路由 / Docker 分层 / CI 三步 / tool_trace</td><td>口述流程</td></tr>
+<tr><td><span class="tag c">基本不考</span></td><td>手写完整代码 / 背 JSON Schema / TF-IDF 数学推导</td><td>知道存在</td></tr>
+</table>
+<div class="note"><b>最小可面清单（背这 8 句）：</b><br>
+① Agent = 模型决策 + Python 执行 + 结果回填，循环到不再调工具。<br>
+② Function Calling = 把工具 schema 发给模型，模型回 tool_calls。<br>
+③ 毛利率=(收入−成本)/收入；流动比率=流动资产/流动负债。<br>
+④ IRR 用牛顿迭代求 NPV=0；DCF=Σ折现+Gordon 终值；ECL=PD×LGD×EAD。<br>
+⑤ RAG 用 TF-IDF 因为 DeepSeek 没 embedding 接口，轻量可解释。<br>
+⑥ SQL 强制只读：非 SELECT/WITH 开头就拒绝。<br>
+⑦ 子进程跑代码，隔离+超时+截断，非安全沙箱。<br>
+⑧ tool_trace 记录每次工具调用的名字/参数/结果/耗时，做可观测。</div>
+
+<!-- ==================== 10 ==================== -->
+<h2 id="p10">第 10 步：今天就能做的 3 个小练习</h2>
+<div class="card">
+<ol>
+<li><b>看公式：</b><code>python -m app.tools.financial_models</code> —— 打印毛利率/WACC/DCF/IRR/ECL 五个数。</li>
+<li><b>看检索：</b><code>python -c "from app.tools.rag import RAG; print(RAG.search('预期信用损失'))"</code> —— 打印最相关准则。</li>
+<li><b>看数据库：</b><code>python -c "from app.tools import db; print(db.query('SELECT * FROM companies'))"</code> —— 打印 4 家公司。</li>
+<li><b>完整跑 Agent（花钱几秒，推荐）：</b>终端 <code>cd C:\Users\10147\Desktop\简历\finance-agent</code> → <code>python -m uvicorn app.main:app --reload</code> → 浏览器打开 <code>http://localhost:8000</code> → 输入框打字 → 点「开始分析」。看完按 Ctrl+C 关服务器。</li>
+</ol>
+</div>
+
+</div>
+</body>
+</html>
